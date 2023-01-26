@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "295212980013",
+    "project_id": "fir-expale",
+    "storage_bucket": "fir-expale.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295212980013:android:ec05173b4a5d7b872da5a4",
+        "android_client_info": {
+          "package_name": "com.example.firebase_expamle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295212980013-bbrlcu0nfev4ilq0kalasa9pivgev89r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoRmZOUZ3NsM-nJiA56BDcXEJ2HhaWAME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "295212980013-bbrlcu0nfev4ilq0kalasa9pivgev89r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

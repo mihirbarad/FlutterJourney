@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "931797423998",
+    "project_id": "fir-could-680c8",
+    "storage_bucket": "fir-could-680c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931797423998:android:3d82dfe160426a7143c52f",
+        "android_client_info": {
+          "package_name": "com.example.apiexmaple"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931797423998-g9qhjuvg0lj55s0db0b9krhesvnel759.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEwk4DN_fDqGJNKutx1aSLVitZn147R3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "931797423998-g9qhjuvg0lj55s0db0b9krhesvnel759.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

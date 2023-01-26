@@ -1,0 +1,190 @@
+1) Default Value:-
+ while declaring The VAriable Without initializing the value then the dart compiler provider default value (NUll ) to the value,
+
+Example:-
+
+    Main(){
+	
+	int a;
+	print("$a");
+
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------)
+
+
+2) Final & Const:-
+
+When we do not want to change a variable in the future then we use final and const it can be used in place of var or in addition to a type,
+
+exmpale:-
+
+main(){
+
+final pi=3.14;
+final String subname="dart";
+var pi=4.14;                     (In this error show because pi alredy used  (final))
+print("$pi");		
+print("$subname");
+
+
+} 
+
+
+main(){
+const name="dart ";
+print("$name");
+}
+
+
+
+
+*)Difference Between final and cost:(*)
+
+Final : final variable can only be set  once be set once and it is initialized when accessed,
+If we never use that variable in programm then it will be not initialize that value,
+
+
+const:- Variable is implicityly final but it is a complie time constant.
+It is initialiized during Compilation , If we not using that variable it will consume is memory .
+
+
+instance varibale can be final but cannot be const,
+if we want it use constant in class need to use static const,
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------)
+
+
+(*)Conditional Statements:
+If..Statement
+It...else Statement
+Else if Statement
+Nested if Statement 
+Swirch Statement
+
+
+Loooping Statement:
+For Loop
+For .. in loop
+While loop,
+do while.. loop,
+
+
+
+________________________________________________________________________________________________________________________________________________________________________________________________
+IF exmpale:
+
+import'dart:io';
+
+main(){
+	var num;
+	print("Enter a number");
+	num =int.parse(stdin.readline()!);
+
+	if(num > 35){
+		print("number is greater than 35 ");
+
+	}else{
+		print("number is less than")
+	}
+}
+
+
+else if stattement----
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Nested if --
+
+syntex:-------------------------------
+
+if inside the if statement
+syntex:-
+if(conditon){
+	statement
+	if (conditon){
+		statement
+	}else{
+		statement
+	}
+}else{
+	statement
+}
+
+--------------------------------------------------------------------------------------------------------------------------------
+For in loop :-)
+it's use for fetch data in list,
+
+main(){
+
+	var l1=[12,13,14,15];
+	for(var i in l1){print(i);}
+}
+--------------------------------------------------------------------------------------------------------------------------------
+
+* while loop:)
+
+While loop is used when the number of execution of block of code is not know,
+ it will execute as long as the condition if true, ,It initially check the given condition then
+  execute the statement that are inside the while loop,
+
+
+
+
+initialization;
+While(condition)
+{
+	statement;
+	increment;
+}
+
+----------------------------------------------------------------------------------------------  ------------------------------
+
+Do .. while loop:
+
+do while loop execute a block of the statement first and then checks the condition if the conditon returns true, then the loop continues it
+iteration It is similar to dart while loop but the only difference isin the do while loopa block of statement inside the body of loop will be the
+executeat least oncce
+
+initialization;
+
+do{
+	body
+}while(condition);
+
+------------------------------------------------------------------------------------------------------------------------------
+
+Function : set of code that together perform a specific task It is used to break the large code into smaller modules and reuse it when needed.
+
+
+Function make the programm more readable and more easy to debug.
+in dart function is an object that ...
+----------------------------------------------------------------------------------------------
+
+1) Actual Perameter :-)
+
+A parameter which is parsed during a function definition is called the actual parameter.
+
+2) Formal Perameter :)
+
+A parameter which is parsed during a function call is called the formal parameter.
+
+------------------------------------------------------------------------------------------------
+
+
+four categories Function:)
+
+1)Function without parameter and without return type,
+2)funtion with parameter and without return type,
+3)function without parameter and with return type,
+4)function with parameter and with return type,
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+													
+
+

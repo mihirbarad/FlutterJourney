@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "386159751547",
+    "project_id": "otpexmaple",
+    "storage_bucket": "otpexmaple.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386159751547:android:825735123aa2712a51cdde",
+        "android_client_info": {
+          "package_name": "com.example.otpexample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "386159751547-ai1ltjjthb9l7m160t7cj6o192fcfr6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBe8syPJXSy-9Ovlu3MTtiy4QZj7d-b7M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "386159751547-ai1ltjjthb9l7m160t7cj6o192fcfr6t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
