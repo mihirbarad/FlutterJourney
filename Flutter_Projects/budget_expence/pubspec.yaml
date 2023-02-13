@@ -53,6 +53,9 @@ dependencies:
   dropdown_button2: ^1.9.2
   custom_refresh_indicator: ^2.0.1
   google_sign_in: ^5.4.2
+  flutter_facebook_auth: ^5.0.7
+  cloud_firestore: ^4.3.1
+  dart_ipify: ^1.1.1
 
 dev_dependencies:
   flutter_test:

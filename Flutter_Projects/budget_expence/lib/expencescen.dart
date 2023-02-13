@@ -393,6 +393,9 @@ class _incomeState extends State<expenceScreen> {
                                   channelDescription: channel.description,
                                   importance: Importance.high,
                                   color: Colors.blue,
+                                  largeIcon:
+                                      const DrawableResourceAndroidBitmap(
+                                          '@mipmap/ic_launcher'),
                                   playSound: true,
                                   icon: '@mipmap/ic_launcher')));
 

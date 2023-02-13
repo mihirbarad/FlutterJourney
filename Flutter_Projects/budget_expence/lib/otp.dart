@@ -12,7 +12,12 @@ import 'package:topsBudget/main.dart';
 class otp extends StatefulWidget {
   var phones;
   var name;
-  otp({super.key, required this.phones, required this.name});
+  var mobileNumber = "";
+  otp(
+      {super.key,
+      required this.phones,
+      required this.name,
+      required this.mobileNumber});
 
   @override
   State<otp> createState() => _homepageState();
@@ -32,97 +37,109 @@ class _homepageState extends State<otp> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Enter OTP",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30.sp,
-                  color: Color.fromARGB(255, 108, 84, 12)),
-            ),
-            Text(
-              "Here",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15.sp,
-                  color: Color.fromARGB(255, 108, 84, 12)),
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 5.h),
-              padding: EdgeInsets.symmetric(horizontal: 3.h),
-              child: PinCodeTextField(
-                length: 6,
-
-                obscureText: false,
-                controller: _otpController,
-                animationType: AnimationType.slide,
-                animationDuration: Duration(milliseconds: 500),
-                errorAnimationController: errorController, // Pass it here
-                onChanged: (value) {
-                  setState(() {
-                    ot = value;
-                  });
-                },
-                appContext: context,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 15.h,
               ),
-            ),
-            SizedBox(
-              height: 3.h,
-            ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(25.w, 5.h),
-                  primary: Color.fromARGB(248, 155, 134, 64),
-                  onPrimary: Colors.white,
-                  shape: const BeveledRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
+              Image.network(
+                'https://tehran-assets.s3.amazonaws.com/static/why-image.png',
+              ),
+              Text("OTP Verification"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Enter The OTP Sent to "),
+                  Text(
+                    "+91${widget.mobileNumber}",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5.h,
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 5.h),
+                padding: EdgeInsets.symmetric(horizontal: 3.h),
+                child: PinCodeTextField(
+                  length: 6,
+
+                  obscureText: false,
+                  controller: _otpController,
+                  animationType: AnimationType.slide,
+                  animationDuration: Duration(milliseconds: 500),
+                  errorAnimationController: errorController, // Pass it here
+                  onChanged: (value) {
+                    setState(() {
+                      ot = value;
+                    });
+                  },
+                  appContext: context,
                 ),
-                onPressed: () async {
-                  try {
-                    PhoneAuthCredential credential =
-                        PhoneAuthProvider.credential(
-                            verificationId: widget.phones, smsCode: ot);
+              ),
+              SizedBox(
+                height: 3.h,
+              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(80.w, 6.h),
+                    primary: Color.fromARGB(248, 159, 109, 0),
+                    onPrimary: Colors.white,
+                    shape: const BeveledRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                  ),
+                  onPressed: () async {
+                    try {
+                      PhoneAuthCredential credential =
+                          PhoneAuthProvider.credential(
+                              verificationId: widget.phones, smsCode: ot);
 
-                    await auth.signInWithCredential(credential);
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.setBool("isLogin", true);
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Homepage(
-                                  person_Name: widget.name,
-                                )),
-                        (route) => false);
+                      await auth.signInWithCredential(credential);
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setBool("isLogin", true);
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Homepage(
+                                    person_Name: widget.name,
+                                  )),
+                          (route) => false);
 
-                    flutterLocalNotificationsPlugin.show(
-                        0,
-                        "Welcome ${widget.name} ",
-                        "enjoy it.",
-                        NotificationDetails(
-                            android: AndroidNotificationDetails(
-                                channel.id, channel.name,
-                                channelDescription: channel.description,
-                                importance: Importance.high,
-                                color: Colors.blue,
-                                playSound: true,
-                                icon: '@mipmap/ic_launcher')));
-                  } catch (e) {
-                    Fluttertoast.showToast(
-                        msg: "Try OTP",
-                        gravity: ToastGravity.BOTTOM,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                  }
-                },
-                child: Text("Done")),
-          ],
+                      flutterLocalNotificationsPlugin.show(
+                          0,
+                          "Welcome ${widget.name} ",
+                          "enjoy it.",
+                          NotificationDetails(
+                              android: AndroidNotificationDetails(
+                                  channel.id, channel.name,
+                                  channelDescription: channel.description,
+                                  importance: Importance.high,
+                                  color: Colors.blue,
+                                  playSound: true,
+                                  largeIcon:
+                                      const DrawableResourceAndroidBitmap(
+                                          '@mipmap/ic_launcher'),
+                                  icon: '@mipmap/ic_launcher')));
+                    } catch (e) {
+                      Fluttertoast.showToast(
+                          msg: "Try OTP",
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
+                  },
+                  child: Text(
+                    "Done",
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 254, 254, 254),
+                        fontSize: 16),
+                  )),
+            ],
+          ),
         ),
       ),
     );

@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:topsBudget/Database/Service/myService.dart';
@@ -12,7 +14,9 @@ import 'package:topsBudget/googleSinin/auth_service.dart';
 import 'package:topsBudget/otp.dart';
 
 class Login extends StatefulWidget {
-  Login({super.key});
+  var ipa4;
+  var ipa6;
+  Login({super.key, required this.ipa4, required this.ipa6});
 
   @override
   State<Login> createState() => _LoginState();
@@ -21,12 +25,48 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _numberController = TextEditingController();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool _nameValidator = false;
   bool _numberValidator = false;
   var _servies = Myservices();
   var phone;
+  var curentDate;
+  var curenttime;
+
+  fetchData() {
+    //----------------------------------------------------//
+    curentDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
+    curenttime = DateFormat("hh-mm").format(DateTime.now());
+    print(">>>>>>>>>${curentDate}");
+    print(">>>>>>>>>${curenttime}");
+  }
+
+  //Firebase In Firestore Data Inis..
+  void addDataToFirestore({String? name, String? Monumber}) async {
+    // Collection reference
+    CollectionReference usersCollection = _firestore.collection('users');
+
+    // Document data to be added
+    Map<String, dynamic> data = {
+      'name': name,
+      'number': Monumber,
+      'LoginDate': curentDate,
+      'LoginTime': curenttime,
+      'ip Adrees4': widget.ipa4,
+      'ip adress6': widget.ipa6,
+    };
+
+    // Adding document to Firestore
+    await usersCollection.add(data);
+  }
 
   @override
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -37,7 +77,7 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                height: 20.h,
+                height: 15.h,
               ),
               Image.asset(
                 'images/icons8-money-bag-96.png',
@@ -143,8 +183,8 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
-                      color: Color.fromARGB(255, 65, 66, 67).withOpacity(0.5),
-                      spreadRadius: 4,
+                      color: Color.fromARGB(255, 65, 66, 67).withOpacity(0.3),
+                      spreadRadius: 1,
                       blurRadius: 10,
                       offset: Offset(5, 6),
                     ),
@@ -162,6 +202,7 @@ class _LoginState extends State<Login> {
                     });
 
                     if (_nameValidator == false && _numberValidator == false) {
+                      var nums = _numberController.text.toString();
                       print("--->>>${phone}<<<<----");
                       await FirebaseAuth.instance.verifyPhoneNumber(
                         phoneNumber: '+91${_numberController.text.toString()}',
@@ -169,6 +210,8 @@ class _LoginState extends State<Login> {
                             (PhoneAuthCredential credential) {},
                         verificationFailed: (FirebaseAuthException e) {},
                         codeSent: (String verificationId, int? resendToken) {
+                          addDataToFirestore(
+                              name: _nameController.text, Monumber: nums);
                           phone = verificationId;
 
                           Navigator.push(
@@ -177,6 +220,7 @@ class _LoginState extends State<Login> {
                                   builder: (context) => otp(
                                         name: _nameController.text.toString(),
                                         phones: phone,
+                                        mobileNumber: nums,
                                       )));
                         },
                         codeAutoRetrievalTimeout: (String verificationId) {},
@@ -185,58 +229,104 @@ class _LoginState extends State<Login> {
                   },
                   child: Text(
                     "Login",
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                   ),
+                  // style: ElevatedButton.styleFrom(
+                  //   minimumSize: Size(38.w, 4.8.h),
+                  //   primary: Color.fromARGB(248, 178, 146, 42),
+                  //   shape: BeveledRectangleBorder(
+                  //       borderRadius: BorderRadius.all(Radius.circular(6))),
+                  // ),
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(38.w, 4.8.h),
-                    primary: Color.fromARGB(248, 141, 115, 29),
-
-                    textStyle: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontStyle: FontStyle.normal),
-                    shape: BeveledRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(6))),
-                    //  shadowColor: Color.fromARGB(255, 6, 136, 197),
+                    minimumSize: Size(80.w, 5.5.h),
+                    primary: Color.fromARGB(248, 159, 109, 0),
+                    onPrimary: Colors.white,
+                    shape: const BeveledRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(7))),
                   ),
                 ),
               ),
               SizedBox(
-                height: 18.h,
+                height: 2.5.h,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: () {
+              Text(
+                "Or",
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+              ),
+              SizedBox(
+                height: 1.h,
+              ),
+              Container(
+                  margin: EdgeInsets.only(right: 5.w, left: 5.w),
+                  child: ElevatedButton(
+                    onPressed: () {
                       AuthService().SignInWithGoogle();
                     },
-                    child: ClipRect(
-                      child: Image.network(
-                        "https://cdn-icons-png.flaticon.com/512/2991/2991148.png",
-                        height: 40,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.network(
+                          'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png',
+                          height: 3.h,
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        Text(
+                          "Signin With Google",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    width: 3.w,
-                  ),
-                  Text(
-                    "Or",
-                    style: TextStyle(
-                        fontSize: 18, color: Color.fromARGB(255, 28, 23, 10)),
-                  ),
-                  SizedBox(
-                    width: 3.w,
-                  ),
-                  ClipRect(
-                    child: Image.network(
-                      "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png",
-                      height: 40,
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(1.w, 5.5.h),
+                      primary: Color.fromARGB(255, 240, 240, 240),
+
+                      shape: BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                      //  shadowColor: Color.fromARGB(255, 6, 136, 197),
                     ),
-                  ),
-                ],
-              )
+                  )),
+              SizedBox(
+                height: 2.h,
+              ),
+              Container(
+                  margin: EdgeInsets.only(right: 5.w, left: 5.w),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      AuthService().SignInWithGoogle();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.network(
+                          'https://e7.pngegg.com/pngimages/991/568/png-clipart-facebook-logo-computer-icons-facebook-logo-facebook-thumbnail.png',
+                          height: 4.h,
+                        ),
+                        SizedBox(
+                          width: 3.w,
+                        ),
+                        Text(
+                          "Signin With Facebook",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(1.w, 5.5.h),
+                      primary: Color.fromARGB(255, 240, 240, 240),
+
+                      shape: BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3))),
+                      //  shadowColor: Color.fromARGB(255, 6, 136, 197),
+                    ),
+                  )),
             ],
           ),
         ),

@@ -1,4 +1,7 @@
+import 'package:apiexmaple/other/register.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
 //get user => _auth.currentUser;
@@ -21,15 +24,25 @@ FirebaseAuth _auth = FirebaseAuth.instance;
 //     return null;
 //   }
 // }
-Future createAccount({String? email, String? password}) async {
+Future<void> createAccount(
+    {String? username, String? email, String? password}) async {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
   try {
-    await _auth.createUserWithEmailAndPassword(
+    User? user = (await _auth.createUserWithEmailAndPassword(
       email: email!,
       password: password!,
-    );
-    return null;
+    ))
+        .user;
+
+    if (user != null) {
+      await _firestore.collection("users").doc(_auth.currentUser!.uid).set({
+        "name": username,
+        "email": email,
+        "status": "pending",
+      });
+    }
   } on FirebaseAuthException catch (e) {
-    return e.message;
+    return null;
   }
 }
 
@@ -43,11 +56,17 @@ Future Login(String email, String password) async {
   }
 }
 
-Future Logout() async {
+Future Logout(BuildContext context) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   try {
-    await _auth.signOut();
+    await _auth.signOut().then((value) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => register(),
+          ));
+    });
   } catch (e) {
     print(e);
   }

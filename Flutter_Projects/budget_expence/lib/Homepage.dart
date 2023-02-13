@@ -72,6 +72,7 @@ class _HomepageState extends State<Homepage> {
   int? names = 0;
   var dateController = TextEditingController();
   var _mysevice = Myservices();
+  var getDate;
 
   @override
   void initState() {
@@ -82,6 +83,7 @@ class _HomepageState extends State<Homepage> {
 
     // init fetch data function when open page
     fetchData();
+    _fetchBudgetBymonth(getDate);
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
@@ -127,19 +129,20 @@ class _HomepageState extends State<Homepage> {
   }
 
   fetchData() {
-    DateTime dateToday = new DateTime.now();
-    String curr_date = dateToday.toString().substring(0, 10);
+    //----------------------------------------------------//
+    String curentDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
 
-    _fetchBudgetBymonth(curr_date);
+    getDate = curentDate;
+    print("--------$getDate--------");
   }
 
   HistoryGetExpence() async {
-    var result = await _myservices.historyGetExpence();
+    var HistroyExpenseResult = await _myservices.historyGetExpence();
     ExpenceHistoryList = <ExpenceModel>[];
 
-    print("------$result\n\n\n");
+    //print("------$HistroyExpenseResult\n\n\n");
 
-    result.forEach((Entry) {
+    HistroyExpenseResult.forEach((Entry) {
       setState(() {
         var _myexpence = ExpenceModel();
         _myexpence.id = Entry['id'];
@@ -153,12 +156,12 @@ class _HomepageState extends State<Homepage> {
   }
 
   GethistryBudget() async {
-    var result = await _myservices.historyGetAllBudget();
+    var getBudgetResult = await _myservices.historyGetAllBudget();
     HistrybudgetList = <incomeModel>[];
 
-    print("------$result\n\n\n");
+    //print("------$getBudgetResult\n\n\n");
 
-    result.forEach((Entry) {
+    getBudgetResult.forEach((Entry) {
       setState(() {
         var _mybudget = incomeModel();
         _mybudget.id = Entry['id'];
@@ -228,7 +231,7 @@ class _HomepageState extends State<Homepage> {
     var result = await _myservices.historyGetHistory();
     HistryList = <HistoryModel>[];
 
-    print("------$result\n\n\n");
+    //print("------$result\n\n\n");
 
     result.forEach((Entry) {
       setState(() {
@@ -248,11 +251,11 @@ class _HomepageState extends State<Homepage> {
   }
 
   _fetchBudgetBymonth(monthname) async {
-    var result = await _mysevice.fetchdatabudgetService(monthname);
+    var dateFetch = await _mysevice.fetchdatabudgetService(monthname);
     fetchhfect = <HistoryModel>[];
-    print("_--------------$result");
+    //print("<><>><><><><$dateFetch><><><><><><>>");
 
-    result.forEach((Entry) {
+    dateFetch.forEach((Entry) {
       setState(() {
         var _hiryFetch = HistoryModel();
         _hiryFetch.id = Entry['id'];
@@ -270,252 +273,237 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: _onWillPop,
-        child:
-            // CustomRefreshIndicator(
-
-            //     /// delegate with configuration
-            //     builder: MaterialIndicatorDelegate(
-            //       builder: (context, controller) {
-            //         return Icon(
-            //           Icons.ac_unit,
-            //           color: Colors.blue,
-            //           size: 30,
-            //         );
-            //       },
-            //     ),
-            //     onRefresh: _fetchBudgetBymonth(curentDate),
-            //     child:
-            Scaffold(
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.endFloat,
-                floatingActionButton: FloatingActionButton(
-                  child: Icon(Icons.add),
-                  backgroundColor: Color.fromARGB(248, 105, 86, 23),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          duration: Duration(milliseconds: 1000),
-                          child: Add_incomeandExpence(),
-                          inheritTheme: true,
-                          ctx: context),
-                    );
-                  },
-                ),
-                body: Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(children: [
+        child: Scaffold(
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              backgroundColor: Color.fromARGB(248, 105, 86, 23),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      duration: Duration(milliseconds: 1000),
+                      child: Add_incomeandExpence(),
+                      inheritTheme: true,
+                      ctx: context),
+                );
+              },
+            ),
+            body: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(children: [
+                  SizedBox(
+                    height: 5.5.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                       SizedBox(
-                        height: 5.5.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 2.h),
-                            child: Row(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    AuthService().signOut();
-                                  },
-                                  child: Icon(
-                                    Icons.person,
-                                    size: 5.h,
-                                    color: Color.fromARGB(255, 4, 49, 86),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 50.w,
-                          ),
-                          Expanded(
-                            child: IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        type: PageTransitionType.rightToLeft,
-                                        duration: Duration(milliseconds: 1000),
-                                        child: stetic(
-                                            expenceMoney: expenceMoney,
-                                            income: income,
-                                            percentage: percentage),
-                                        inheritTheme: true,
-                                        ctx: context),
-                                  );
-                                },
-                                icon: Icon(
-                                  Icons.stacked_bar_chart,
-                                  size: 5.h,
-                                  color: Color.fromARGB(255, 4, 49, 86),
-                                )),
-                          ),
-                        ],
+                        width: 5.w,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 8.h),
-                        child: Text(
-                          "Your Balance",
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w600),
+                        padding: EdgeInsets.only(top: 2.h),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                AuthService().signOut();
+                              },
+                              child: Icon(
+                                Icons.person,
+                                size: 5.h,
+                                color: Color.fromARGB(255, 4, 49, 86),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "₹${addmoney = income - expenceMoney}.00",
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(247, 178, 180, 180)),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: ListTile(
-                                title: Text(
-                                  "Income",
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.green),
-                                ),
-                                subtitle: Text(
-                                  "₹${income}",
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                                leading: Icon(
-                                  Icons.arrow_circle_up_outlined,
-                                  color: Colors.green,
-                                  size: 7.h,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Expanded(
-                              child: ListTile(
-                                title: Text(
-                                  "Expence",
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.red),
-                                ),
-                                subtitle: Text(
-                                  "₹${expenceMoney}",
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                                leading: Icon(
-                                  Icons.arrow_circle_down_outlined,
-                                  color: Colors.red,
-                                  size: 6.h,
-                                ),
-                              ),
-                            ),
-                          ]),
-                      SizedBox(
-                        height: 4.h,
+                        width: 50.w,
                       ),
                       Expanded(
-                          flex: 1,
-                          child: ListView.builder(
-                            itemCount: fetchhfect.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              if (fetchhfect[index].type == 'Expense') {
-                                incos = Icon(
-                                  Icons.arrow_circle_down_outlined,
-                                  color: Colors.red,
-                                  size: 6.h,
-                                );
-                              } else {
-                                incos = Icon(
-                                  Icons.arrow_circle_up_outlined,
-                                  color: Colors.green,
-                                  size: 6.h,
-                                );
-                              }
-                              return Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                  ),
-                                  // margin: EdgeInsets.symmetric(
-                                  //     horizontal: 2.h, vertical: 1.h),
-                                  elevation: 10,
-                                  child: ListTile(
-                                    onTap: () {},
-                                    leading: incos,
-                                    title: Text(
-                                      '${fetchhfect[index].title}',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    subtitle: Text(
-                                      '₹${fetchhfect[index].amount}',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    trailing: SizedBox(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10),
-                                        child: Text(
-                                          "${fetchhfect[index].type}",
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ),
-                                  ));
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    duration: Duration(milliseconds: 1000),
+                                    child: stetic(
+                                        expenceMoney: expenceMoney,
+                                        income: income,
+                                        percentage: percentage),
+                                    inheritTheme: true,
+                                    ctx: context),
+                              );
                             },
-                          )),
-                      SizedBox(
-                        height: 4.h,
+                            icon: Icon(
+                              Icons.stacked_bar_chart,
+                              size: 5.h,
+                              color: Color.fromARGB(255, 4, 49, 86),
+                            )),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => viwee_history(),
-                              ));
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(4),
-                          margin: EdgeInsets.all(10),
-                          child: Text(
-                            "Show All transactions.",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.brown,
-                                fontWeight: FontWeight.bold),
-                          ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 8.h),
+                    child: Text(
+                      "Your Balance",
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "₹${addmoney = income - expenceMoney}.00",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromARGB(247, 178, 180, 180)),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Expanded(
+                      child: ListTile(
+                        title: Text(
+                          "Income",
+                          style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.green),
+                        ),
+                        subtitle: Text(
+                          "₹${income}",
+                          style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        leading: Icon(
+                          Icons.arrow_circle_up_outlined,
+                          color: Colors.green,
+                          size: 7.h,
                         ),
                       ),
-                      SizedBox(height: 2.h),
-                    ]))));
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Expanded(
+                      child: ListTile(
+                        title: Text(
+                          "Expence",
+                          style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.red),
+                        ),
+                        subtitle: Text(
+                          "₹${expenceMoney}",
+                          style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        leading: Icon(
+                          Icons.arrow_circle_down_outlined,
+                          color: Colors.red,
+                          size: 6.h,
+                        ),
+                      ),
+                    ),
+                  ]),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: ListView.builder(
+                        itemCount: fetchhfect.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          if (fetchhfect[index].type == 'Expense') {
+                            incos = Icon(
+                              Icons.arrow_circle_down_outlined,
+                              color: Colors.red,
+                              size: 6.h,
+                            );
+                          } else {
+                            incos = Icon(
+                              Icons.arrow_circle_up_outlined,
+                              color: Colors.green,
+                              size: 6.h,
+                            );
+                          }
+                          return Card(
+                              elevation: 10,
+                              shadowColor: Colors.black,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              // margin: EdgeInsets.symmetric(
+                              //     horizontal: 2.h, vertical: 1.h),
+
+                              child: ListTile(
+                                onTap: () {},
+                                leading: incos,
+                                title: Text(
+                                  '${fetchhfect[index].title}',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                subtitle: Text(
+                                  '₹${fetchhfect[index].amount}',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                trailing: SizedBox(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Text(
+                                      "${fetchhfect[index].type}",
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ),
+                              ));
+                        },
+                      )),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => viwee_history(),
+                          ));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(4),
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        "Show All transactions.",
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.brown,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                ]))));
   }
 }

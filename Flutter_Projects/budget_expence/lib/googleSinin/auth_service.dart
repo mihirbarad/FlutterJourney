@@ -9,7 +9,7 @@ import 'package:topsBudget/loginscree.dart';
 class AuthService {
   //1.  HandleAuthState()
 
-  handleAuthState() {
+  handleAuthState(String? ipa4, String? ipa6) {
     return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
@@ -18,7 +18,10 @@ class AuthService {
             person_Name: null,
           );
         } else {
-          return Login();
+          return Login(
+            ipa4: ipa4,
+            ipa6: ipa6,
+          );
         }
       },
     );

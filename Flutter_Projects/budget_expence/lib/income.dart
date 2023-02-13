@@ -59,6 +59,8 @@ class _incomeState extends State<income> {
                 importance: Importance.high,
                 color: Colors.blue,
                 playSound: true,
+                largeIcon:
+                    const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
                 icon: '@mipmap/ic_launcher')));
   }
 

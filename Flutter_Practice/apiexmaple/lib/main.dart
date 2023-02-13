@@ -6,7 +6,10 @@ import 'package:apiexmaple/api_send.dart';
 import 'package:apiexmaple/api_user_send.dart';
 import 'package:apiexmaple/json_parsing/json_viwer.dart';
 import 'package:apiexmaple/other/firebase.dart';
+import 'package:apiexmaple/other/firebase_authe.dart';
 import 'package:apiexmaple/other/register.dart';
+import 'package:apiexmaple/userapi/map.dart';
+import 'package:apiexmaple/userapi/user.dart';
 import 'package:apiexmaple/vimalApi/api_exmaple_otp.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -59,8 +62,9 @@ class MyApp extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
+          theme: ThemeData(useMaterial3: true),
           debugShowCheckedModeBanner: false,
-          home: register(),
+          home: authFire(),
         );
       },
     );
