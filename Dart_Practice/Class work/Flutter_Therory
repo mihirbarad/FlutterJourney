@@ -1,0 +1,230 @@
+Flutter Introdution :
+
+Flutter is an open -source Ui software development kit create by google 2011.
+Flutter apps are written in the Dart language and make use of many of the langaues more advance features.
+
+Who uses flutter?
+
+Some big companess are using it. such as as Alibaba (andorid and iso) Tecent (an/iso) and google ads(and/iso).
+
+
+
+
+Flutter Structure:
+
+Myapp(Top-level)
+	|
+--MeterialApp
+	|	
+--MyHomepage
+	|
+--Scaffold--
+	|
+1)appbar  2)body
+
+
+----------------------------------------------------------------------------------------------
+
+Flutter Scaffold ::
+
+Scaffold is a widget in flutter used to implement the basic material design visual layout structure,
+
+it is quick qnough to create a general -purpose mobile application and contains almost everything we need to implement
+create a functional and responsive Flutter apps, 
+
+It is mainly responsible for creating a base to the app screen on which the child widgets hold on and render on the screen.
+
+It provider many widgets or apis for showing drawer, snakbar BottomNavigatorbar , Appbar Floating action button, and many more,
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+Appbar: The
+It is horizontal bar that is mainly dispalyed at the top of the Scaffold widget,
+
+Is is the main part of the Scaffold widget and dispalys at the top  of screen.
+
+
+syntex:
+
+return scaffold(
+	appbar:AppBar(
+		title:Text("My application")
+	)
+)
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+Conttainer:
+
+Container is flutter is parent widget that can contain multiple child widgets and manage them efficiently.
+through width , height and padding background color  etc.
+
+it allows many attributes to the user for decorating its child widgets such as using margin which separates the container from
+with other contents.
+
+A container widgets is same as <div> tag in html, If this widgets does not cotain and child widgets. it will the 
+whole aera on the screen automatically. otherwise is will wrap the child widget according to thespecified height andwidth
+
+
+
+widget cannot render directly without any parent widgets, We can use Scaffold widgets. center widgets padding and
+Row widgets or column widgets as its parent widgets.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+USe of Container:
+
+Widgets that need some background styling may be a color shape , or size constraint we may try to wrap it in a widget
+a container widget. this widget helps us to compose decorate and position its child wiidgets. This
+if we wrap our widgets in a container then without using any parameters we would not notice any difference in the
+But if we add any property such as color margin padding and etc. in a container , we can style our widgets on the same
+screen accoring to our needs.
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+Properties oF Container widgets: 
+
+Child: This property is used to store the child widgetof the container. This
+
+body: Container(
+    child: Text("Container widget", style:Textstyle(fontsize:24))
+)
+
+color: background color of the entire container
+
+
+home: scaffold(appbar:Appbar(title: Text("My App"), 
+backgroundColor: color.cyan[300]))
+body:Container(
+    color:Colors.cyan[800]
+    child:Text("hello welcome ", style: Textstyle(fontsizez:24))
+)
+
+
+Height and width :
+By default the container always taks the space on its child widgets. 
+
+body: Container(width: 500,
+alignment: Alignment.center,
+child:Text("Hello welcome")
+)
+
+
+margin: This Project is used to surround the empty space around the container edgeinsets all(25): set the equal 
+margin in all four directions. 
+
+body:Container(width: 500,
+margin:EdgeInsets.all(25),
+child:Text("Hello welcome"),
+)
+
+padding: set the distance between the border of the container (all four directions) and its child 
+widget. 
+
+	body: Container(width:500.
+	padding: EdgeInsets.all(35)
+	child:Text("Hello would",style:Textstyle(fontsize:30))
+	)
+
+	Alignment:This property is used to set the position of chilld within the container . Flutter 
+	allows the user to align its element in various ways such as center bottom bottomcenter. etc. 
+
+	alignment:Alignment.bottom.bottomcenter,
+
+	Transform: The transformation property allows developers to ratate the container.
+	it can rotate the container in any directions, i.e change the container coordinates
+	in the prant widget,  
+
+	ex:  Container(transform:Matrix4.rorationz(0.5))
+
+
+	---------------------------------
+
+	type of widget : There are two of widgets.
+		1)Visible(input-Output)
+		2)Invisible(Layout -control)
+		
+	visible widget  
+
+	Text: A text widget hold some text to display on the screen. we can align the text widgets 
+	uusing textalign property and style property allows the customization of text that include font 
+	font weight and font style letter spacing.
+
+	container(
+		child:Text("Hello welcome to flutter ")
+	)
+
+
+	InVisible widget : invisible widget are related to the layout and control of widget
+	controlling how the widget actually behave and how they will look onto the screen. we
+
+	column: 
+
+	A column widget is a type of widget that arrange all its children widget in a vertical layout
+	alignment
+
+	it provider spacing between the widget by using the mainaxixalignment
+	and cross alignment property.
+
+	in these property, the main axis is the vertical axis and the cross the horizontal 
+
+
+
+
+	Row: Row widgets is similar to the column widget, but it constructs  a widget horizontally rather
+	than vertically. 
+
+	Here, The main axis is the horizontal axis, and the cross axis is the vertical axis ,
+
+	Syntax:  
+
+	new row(
+		mainAxisAlignment: MAinerAxisAlignment.center,
+		children:[
+			new Text("msg")
+			new Text("msg")
+			new Text("msg")
+		]
+	)
+
+
+	Type of Layout Widgets 
+	1)Single Child widgets
+	2)Multiple Child widgets
+	3)Silver widgets
+
+	Single Child Widgets: 
+
+		single child layout widget is a type of widget, which can have only one child widget inside the parent layout
+		widgets. These widgets can also contain special layout functionality. Flutter provides us many single widgets to make the app ui 
+		attractive if we use these widgets appropriately, it can save out time and make the app code more readble .
+
+
+
+
+	Column Widgets:
+
+		A column widgets does not appear scrollable because it dispalys the widgets within the visuble column view so it considered worng if we have more children in a column which will not fit in the available space if we want to make a scrollable list of column widgets we need to use the ListView Widgets.
+
+
+		Text widgets property: 
+
+			Textalign: It is used to specify the how our is aligned horizontal. it also control the next,
+
+			TextDirection: It is usesd to determine when the text wil not inthe avaliable space. It means we have specified more text thant the avaliable space.
+
+		**TextScaleFactor**: It is used  determine the scaling to the text displayed by the Text widgets suppose we have specified  the text scale factor as 1.5 then our text will be 50 percent larger than the specified font size.
+
+		Softwrap: It is used whether or nit to show all text widgets contect when there is not enought space avaliable if the is true  it will show all contect Otherwise it will not show all contect.
+
+		**maxline **: It is used to determine the maximum number of line displayed in the text Widgets
+
+		**TextWidthBasic**: It is used to control how the width is defined.
+
+		TextHeightBehavior: It is used to control how the paragraph apperas between the first line and descent of the last line :
+
+		Style: It is the most common property of this widgest that allows developers to styleing thaier it can do stling by specifying the foreground and background color,font size font weight ,letter and word spacing locale shadows, etc. See the table to understand it more easily.
+
+		
+		
